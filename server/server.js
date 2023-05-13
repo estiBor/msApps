@@ -8,7 +8,7 @@ const port = 3000;
 app.get('/photos/fetchPhotos', async (req, res) => {
   console.log('in');
   try {
-    const { category, sortBy, page, perPage } = req.params;
+    const { category, sortBy, page, perPage } = req.query;
     console.log('params', category, sortBy, page, perPage);
     // const response = await axios.get(`https://pixabay.com/api/?key=25540812-faf2b76d586c1787d2dd02736&q=${category}&image_type=photo&safesearch=true&per_page=${perPage}&page=${page}&order=${sortBy}`);
     const response = await axios.get(`https://pixabay.com/api/?key=25540812-faf2b76d586c1787d2dd02736&q=${category}`);

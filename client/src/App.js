@@ -29,14 +29,14 @@ console.log(photos);
         <button className='button-scroll'>next &raquo;</button>
       </div>
 
-      <div>
+      {/* <div>
         <select value={sortBy} onChange={handleSortByChange}>
           <option value="date">Sort by Date</option>
           <option value="id">Sort by ID</option>
         </select>
         <input type="text" value={category} onChange={handleCategoryChange} />
         <button onClick={fetchPhotos}>Search</button>
-      </div>
+      </div> */}
 
       <div className='grid-gallery'>
         {photos.map((photo) => (
