@@ -4,16 +4,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
-import { configureStore } from '@reduxjs/toolkit';
-import photosReducer from './store/photosSlice';
-
-const store = configureStore({
-  reducer: {
-    photos: photosReducer,
-  },
-});
-
-// store.dispatch(fetchPhotos('sports')); // Make initial server call
+import store from './redux/store';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

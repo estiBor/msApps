@@ -1,25 +1,42 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchPhotos } from './store/photosSlice';
+import { setPhotos } from './redux/photosSlice';
 import './App.css';
+import axios from 'axios';
 
 const App = () => {
+  const category = useSelector(state => state.photo.category);
+  const photos = useSelector(state => state.photo.photos);
+  const currentPage = useSelector(state => state.photo.currentPage);
+  const perPage = useSelector(state => state.photo.perPage);
+  const sortBy = useSelector(state => state.photo.sortBy);
+
   const dispatch = useDispatch();
-  const photos = useSelector((state) => state.photos.data);
-  const error = useSelector((state) => state.photos.error);
 
   useEffect(() => {
-console.log(photos);
-  },[])
+    fetchPhotos();
+  }, [category, currentPage, perPage, sortBy]);
 
-  useEffect(() => {
-    dispatch(fetchPhotos('rosses', 'date', '1', '9'));
-  }, [dispatch]);
+  useEffect(()=>{
+    console.log('photos',photos);
+  },[photos])
 
-  if (error) {
-    return <div>Error: {error}</div>;
+  const fetchPhotos = async() => {
+    try {
+      const response = await axios.get('/photos/fetchPhotos/${category}', {
+        params: {
+          sort: sortBy,
+          page: currentPage,
+          perPage: perPage
+        },
+      });
+      console.log('res',response.data.length);
+      dispatch(setPhotos(response.data));
+    } catch (error) {
+      console.error(error);
+      throw new Error('Failed to fetch photos');
+    }
   }
-
 
   return (
     <div className='container'>
@@ -41,7 +58,7 @@ console.log(photos);
       <div className='grid-gallery'>
         {photos.map((photo) => (
           <div className='single-img' key={photo.id}>
-            <img src={photo.webformatURL} alt={photo.tags} />
+            <img src={photo.imageUrl} alt='photo' />
           </div>
         ))}
       </div>
