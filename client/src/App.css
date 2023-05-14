@@ -15,7 +15,7 @@
 }
 
 
-.button-scroll {
+.button-scroll{
   background-color: #0078d0;
   border: 0;
   border-radius: 56px;
@@ -36,7 +36,7 @@
   touch-action: manipulation;
 }
 
-.button-scroll:before {
+.button-scroll:before{
   background-color: initial;
   background-image: linear-gradient(#fff 0, rgba(255, 255, 255, 0) 100%);
   border-radius: 125px;
@@ -55,52 +55,15 @@
   transform: scale(1.05);
 }
 
-.select-type {
-  align-items: center;
-  background-color: rgba(240, 240, 240, 0.26);
-  border: 1px solid #DFDFDF;
-  border-radius: 16px;
-  box-sizing: border-box;
-  color: #000000;
-  cursor: pointer;
-  display: flex;
-  font-family: Inter, sans-serif;
-  font-size: 18px;
-  justify-content: center;
-  line-height: 28px;
-  padding: 14px 22px;
-  text-decoration: none;
-  transition: all .2s;
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: manipulation;
-  width: 50%;
+.type-box {
+  width: 400px;
+  background-color: white;
 }
 
-.select-type:active,
-.select-type:hover {
-  outline: 0;
+.disable {
+  opacity: 0.4;
+  pointer-events: none;
 }
-
-.select-type:hover {
-  background-color: #FFFFFF;
-  border-color: rgba(0, 0, 0, 0.19);
-}
-
-.grid-gallery {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-gap: 50px;
-  margin-top: 50px;
-  padding: 0px 150px;
-}
-
-.single-img > img {
-  object-fit: cover;
-  width: 100%;
-  max-height: 100%;
-}
-
 
 @media (min-width: 768px) {
 
@@ -112,9 +75,4 @@
     padding: 16px 48px;
   }
 
-  .select-type {
-    font-size: 20px;
-    min-width: 200px;
-    padding: 14px 16px;
-  }
 }

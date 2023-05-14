@@ -1,49 +1,92 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setPhotos } from './redux/photosSlice';
+import { setPhotos, setCurrentPage, setSortBy, setCategory, setLeft } from './redux/photosSlice';
 import './App.css';
 import axios from 'axios';
+import { CATEGORY } from './constants';
+import { FormControl, MenuItem, Select, InputLabel } from '@mui/material';
+import GridGallery from './components/gridGallery/gridGallery';
 
 const App = () => {
   const category = useSelector(state => state.photo.category);
-  const photos = useSelector(state => state.photo.photos);
   const currentPage = useSelector(state => state.photo.currentPage);
   const perPage = useSelector(state => state.photo.perPage);
   const sortBy = useSelector(state => state.photo.sortBy);
+  const left = useSelector(state => state.photo.left);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     fetchPhotos();
-  }, [category, currentPage, perPage, sortBy]);
-
-  useEffect(()=>{
-    console.log('photos',photos);
-  },[photos])
+  }, [category, currentPage, sortBy]);
 
   const fetchPhotos = async() => {
     try {
-      const response = await axios.get('/photos/fetchPhotos/${category}', {
+      const response = await axios.get('/photos/fetchPhotos', {
         params: {
+          category: category,
           sort: sortBy,
           page: currentPage,
           perPage: perPage
         },
       });
-      console.log('res',response.data.length);
-      dispatch(setPhotos(response.data));
+      dispatch(setLeft(response.data.left));
+      dispatch(setPhotos(response.data.photos));
     } catch (error) {
       console.error(error);
       throw new Error('Failed to fetch photos');
     }
   }
 
+  const handlePrevPage = () => {
+    if (currentPage > 1) {
+      dispatch(setCurrentPage(currentPage - 1));
+    }
+  };
+
+  const handleNextPage = () => {
+    dispatch(setCurrentPage(currentPage + 1));
+  };
+
+  const handleSortByChange = (e) => {
+    dispatch(setSortBy(e.target.value));
+  };
+
+  const handleCategoryChange = (e) => {
+    dispatch(setCategory(e.target.value));
+  };
+
   return (
     <div className='container'>
       <div className='option-bar'>
-        <button className='button-scroll'>&laquo; prev</button>
-        <button className='select-type'>Select Type </button>
-        <button className='button-scroll'>next &raquo;</button>
+        <button 
+          className={`button-scroll ${currentPage===1 && "disable" }`} 
+          onClick={handlePrevPage} 
+          disabled={currentPage===1}
+        >
+          &laquo; prev
+        </button>
+       
+        <FormControl className='type-box'>
+          <InputLabel id="demo-simple-select-label">Select Category</InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={category}
+            label="Select Category"
+            onChange={handleCategoryChange}
+          >
+            {CATEGORY.map(type => <MenuItem key={type} value={type}>{type}</MenuItem>)}
+          </Select>
+        </FormControl>
+      
+        <button 
+          className={`button-scroll ${left<1 && "disable" }`} 
+          onClick={handleNextPage}
+          disabled={left<1}
+        >
+          next &raquo;
+        </button>
       </div>
 
       {/* <div>
@@ -51,17 +94,10 @@ const App = () => {
           <option value="date">Sort by Date</option>
           <option value="id">Sort by ID</option>
         </select>
-        <input type="text" value={category} onChange={handleCategoryChange} />
-        <button onClick={fetchPhotos}>Search</button>
       </div> */}
 
-      <div className='grid-gallery'>
-        {photos.map((photo) => (
-          <div className='single-img' key={photo.id}>
-            <img src={photo.imageUrl} alt='photo' />
-          </div>
-        ))}
-      </div>
+      <GridGallery />
+
     </div>
   );
 };
