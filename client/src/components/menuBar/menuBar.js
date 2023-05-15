@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCurrentPage, setSortBy, setCategory, fetchPhotos } from '../../redux/photosSlice';
 import styles from './menuBar.module.css';
@@ -8,7 +8,6 @@ import { FormControl, MenuItem, Select, InputLabel, RadioGroup, FormControlLabel
 const MenuBar = () => {
   const category = useSelector(state => state.photo.category);
   const currentPage = useSelector(state => state.photo.currentPage);
-  const perPage = useSelector(state => state.photo.perPage);
   const sortBy = useSelector(state => state.photo.sortBy);
   const left = useSelector(state => state.photo.left);
 
