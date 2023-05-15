@@ -3,6 +3,7 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import { PHOTO_INFO } from '../../constants';
+import styles from './imageModal.module.css';
 
 const style = {
     position: 'absolute',
@@ -18,7 +19,6 @@ const style = {
 const ImageModal = ({ handleClose, photo}) => {
 
   return (
-    <div>
       <Modal
         open={true}
         onClose={handleClose}
@@ -26,11 +26,10 @@ const ImageModal = ({ handleClose, photo}) => {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-            <img src={photo.imageUrl} alt='photo' />
+            <img src={photo.imageUrl} className={styles.imageModal} alt='photo' />
             {PHOTO_INFO.map( info => <div key={info}>{info}: {photo[info]}</div>)}
         </Box>
       </Modal>
-    </div>
   );
 }
 

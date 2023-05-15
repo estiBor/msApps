@@ -1,4 +1,24 @@
 import { createSlice } from '@reduxjs/toolkit';
+import axios from 'axios';
+
+export const fetchPhotos = () => async (dispatch, getState) => {
+  const { category, sortBy, currentPage, perPage } = getState().photo;
+  try {
+    const response = await axios.get('/photos/fetchPhotos', {
+      params: {
+        category,
+        sortBy,
+        page: currentPage,
+        perPage
+      },
+    });
+    dispatch(setLeft(response.data.left));
+    dispatch(setPhotos(response.data.photos));
+  } catch (error) {
+    console.error(error);
+    throw new Error('Failed to fetch photos');
+  }
+}
 
 const photoSlice = createSlice({
   name: 'photo',
@@ -7,7 +27,7 @@ const photoSlice = createSlice({
     category: 'nature',
     currentPage: 1,
     perPage: 9, // although 3*3 is constant for now, I added this option for future upgrade
-    sortBy: 'date',
+    sortBy: 'popular',
     left: 0
   },
   reducers: {

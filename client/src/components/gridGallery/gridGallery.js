@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import './gridGallery.css';
+import styles from './gridGallery.module.css';
 import ImageModal from '../imageModal/imageModal';
 
 const GridGallery = () => {
@@ -8,11 +8,13 @@ const GridGallery = () => {
     const [ showModal, setShowModal ] = useState(false);
     const [ photo, setPhoto ] = useState({});
 
+    //open the modal
     const open = (photo) => {
         setPhoto(photo);
         setShowModal(true);
     }
 
+    //close the modal
     const handleClose = () => {
         setShowModal(false);
     }
@@ -21,11 +23,11 @@ const GridGallery = () => {
         <div>
             { showModal && <ImageModal photo={photo} handleClose={handleClose} />}
             
-            <div className='grid-gallery'>
+            <div className={styles.gridGallery}>
                 {photos.map((photo) => (
                     <img 
                         key={photo.id} 
-                        className='photo' 
+                        className={styles.photo} 
                         src={photo.imageUrl} 
                         onClick={()=>open(photo)} 
                         alt='photo' 
